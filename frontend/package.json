@@ -23,6 +23,8 @@
     "apexcharts": "^4.3.0",
     "autoprefixer": "^10.4.20",
     "axios": "^1.9.0",
+    "clsx": "^2.1.1",
+    "cookie": "^1.0.2",
     "flatpickr": "^4.6.13",
     "formik": "^2.4.6",
     "js-cookie": "^3.0.5",
@@ -41,7 +43,6 @@
     "react-number-format": "^5.4.4",
     "swiper": "^11.2.0",
     "tailwind-merge": "^2.6.0",
-    "xlsx": "^0.18.5",
     "yup": "^1.6.1"
   },
   "devDependencies": {

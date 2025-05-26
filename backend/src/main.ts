@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import * as cookieParser from 'cookie-parser';
 //import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
@@ -11,10 +12,12 @@ async function bootstrap() {
 
   // Enable CORS jika perlu (misalnya jika frontend dan backend berbeda domain)
   app.enableCors({
-    origin: 'http://localhost:3000', // frontend URL
+    origin: process.env.FRONTEND_URL, // frontend URL(s) from .env as array
     credentials: true, // allow cookies
   });
 
-  await app.listen(process.env.PORT ?? 3001);
+  app.use(cookieParser());
+
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

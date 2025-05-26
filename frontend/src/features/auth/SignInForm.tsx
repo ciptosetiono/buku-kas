@@ -35,7 +35,7 @@ export default function SignInForm() {
       setSubmitError("");
       const response = await api.post<AuthResponseInterface>("/auth/signin", values);
       await saveAuthData(response.data);
-      router.push("/");
+      router.push("/dashboard");
     } catch (error: unknown) {
       if(axios.isAxiosError(error)){
         if(error.response){

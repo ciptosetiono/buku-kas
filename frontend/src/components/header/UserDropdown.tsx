@@ -1,19 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Cookies from 'js-cookie';
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { UserInterface as User } from "../../features/auth/authInterface";
-import { LogOutIcon, UserIcon } from "lucide-react";
-
-const logout = () => {
-  // Remove the access_token cookie
-  Cookies.remove("access_token");
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("user");
-  // Redirect to login page or home page
-  window.location.href = '/auth/signin'; // Or wherever you want to send the user
-};
+import { UserIcon } from "lucide-react";
+import { LogoutButton } from "@/features/auth/LogoutButton";
 
 export default function UserDropdown() {
    const [user, setUser] = useState<User | null>(null);
@@ -95,14 +86,7 @@ export default function UserDropdown() {
             </DropdownItem>
           </li>
         </ul>
-       
-        <button
-          onClick={logout}
-          className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
-        >
-          <LogOutIcon/>
-          Sign out
-        </button>
+       <LogoutButton/>
       </Dropdown>
     </div>
   );

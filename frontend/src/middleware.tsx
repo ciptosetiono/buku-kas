@@ -10,11 +10,17 @@ export function middleware(req: NextRequest) {
   }
 
   // Check for the presence of the JWT token in cookies for other protected routes
-  const token = req.cookies.get("access_token")?.value;
+  //const token = req.cookies.get("access_token")?.value;
+  const token = req.cookies.get("public_token")?.value;
 
   // If token is not found, redirect to login page
   if (!token) {
-    return NextResponse.redirect(new URL("/auth/signin", req.url));
+    //return NextResponse.redirect(new URL("/auth/signin", req.url));
+
+    const loginUrl = new URL("/auth/signin", req.url);
+    loginUrl.searchParams.set("reason", "no_token"); // Tambahkan info ke URL
+    return NextResponse.redirect(loginUrl);
+
   }
 
   // If token is found, allow access to the requested page
@@ -22,13 +28,7 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // Apply middleware to all paths (default is to apply to all routes)
   matcher: [
-    // Protected paths should be listed here if needed, or just leave it for all paths
-    "/",
-    "/transactions/:path*",
-    "/profile/:path*",
-    "/settings/:path*",
-    // You can specify additional protected paths as needed
+    "/((?!auth|_next|static|favicon.ico).*)",
   ],
 };

@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import * as XLSX from 'xlsx';
 import { CashbookReportType } from '../ReportInterface';
 import { formatRupiah, formatTanggal } from '@/utils/format';
 import DropdownButton from '@/components/ui/buttons/DropdownButton';
@@ -86,7 +85,7 @@ export const handleExportPdf = (report: CashbookReportType, fromDate: string, to
   doc.save(`cashbook-report_from_${formatTanggal(fromDate)}_to_${formatTanggal(toDate)}.pdf`);
 };
 
-export const handleExportExcel = (
+export const handleExportCSV = (
   report: CashbookReportType,
   fromDate: string,
   toDate: string
@@ -95,8 +94,22 @@ export const handleExportExcel = (
 
   const totalAllAccount = countTotalAllAccount(report.accounts);
 
-  // === 1. TABEL DATA AKUN ===
-  const accountSheetData = [
+  // Helper to convert array to CSV string (comma separated)
+  const toCSV = (rows: (string | number)[][]): string =>
+    rows
+      .map(row =>
+        row
+          .map((cell) =>
+            typeof cell === 'string' && cell.includes(',')
+              ? `"${cell.replace(/"/g, '""')}"`
+              : cell
+          )
+          .join(',')
+      )
+      .join('\n');
+
+  // === 1. Account Sheet Data ===
+  const accountRows = [
     ['Akun', 'Saldo Awal', 'Total Pemasukan', 'Total Pengeluaran', 'Selisih', 'Saldo Akhir'],
     ...report.accounts.map((acc) => [
       acc.name || '-',
@@ -113,12 +126,10 @@ export const handleExportExcel = (
       totalAllAccount.expense,
       totalAllAccount.different,
       totalAllAccount.currentBalance,
-    ]
+    ],
   ];
 
-  const accountSheet = XLSX.utils.aoa_to_sheet(accountSheetData);
-
-  // === 2. TABEL TRANSAKSI ===
+  // === 2. Transaction Sheet Data ===
   const transactionRows = [
     ['Tanggal', 'Akun', 'Kategori', 'Deskripsi', 'Pemasukan', 'Pengeluaran', 'Saldo'],
     ...report.transactions.map((tx) => [
@@ -129,20 +140,36 @@ export const handleExportExcel = (
       tx.type === 'income' ? tx.amount : '',
       tx.type === 'expense' ? tx.amount : '',
       tx.balance,
-    ])
+    ]),
   ];
 
-  const transactionSheet = XLSX.utils.aoa_to_sheet(transactionRows);
+  // Convert each to CSV text
+  const accountCSV = toCSV(accountRows);
+  const transactionCSV = toCSV(transactionRows);
 
-  // === 3. BUKU KERJA ===
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, accountSheet, 'Data Akun');
-  XLSX.utils.book_append_sheet(workbook, transactionSheet, 'Data Transaksi');
+  // Combine them with a separator (optional)
+  const combinedCSV = `=== Data Akun ===\n${accountCSV}\n\n=== Data Transaksi ===\n${transactionCSV}`;
 
-  // === 4. SIMPAN FILE ===
-  XLSX.writeFile(workbook, `cashbook-report_${formatTanggal(fromDate)}_to_${formatTanggal(toDate)}.xlsx`);
+  // Create a downloadable Blob
+  const blob = new Blob([combinedCSV], { type: 'text/csv;charset=utf-8;' });
+
+  // Create a link to trigger download
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.href = url;
+
+  // Filename with dates
+  const filename = `cashbook-report_${fromDate}_to_${toDate}.csv`;
+  link.setAttribute('download', filename);
+
+  // Append to DOM and trigger click
+  document.body.appendChild(link);
+  link.click();
+
+  // Clean up
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 };
-
 
 export default function CashbookExportButton({report, fromDate, toDate}: {report: CashbookReportType, fromDate: string, toDate: string}) {
   const [exportType, setExportType] = useState<"pdf" | "excel">("pdf");
@@ -155,7 +182,7 @@ export default function CashbookExportButton({report, fromDate, toDate}: {report
   const handleExport = (type:  "pdf" | "excel") => {
     setExportType(type);
     if (type === "pdf") handleExportPdf(report, fromDate, toDate);
-    else handleExportExcel(report, fromDate, toDate);
+    else handleExportCSV(report, fromDate, toDate);
   };
 
   return (

@@ -6,6 +6,7 @@ const api = axios.create({
   withCredentials: true, // using cookies on server
 });
 
+/*
 api.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("access_token");
@@ -15,6 +16,7 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+*/
 
 
 export function handleApiError(err: unknown ) {
