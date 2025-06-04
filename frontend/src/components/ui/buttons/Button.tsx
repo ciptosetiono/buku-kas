@@ -31,12 +31,12 @@ const sizeClasses: Record<ButtonSize, string> = {
 
 const variantClasses = {
   primary: {
-    blue: "bg-blue-500 hover:bg-blue-600 disabled:bg-blue-600 text-white shadow-theme-xs",
-    red: "bg-red-500 hover:bg-red-600 disabled:bg-red-600 text-white shadow-theme-xs",
-    green: "bg-green-500 hover:bg-green-600 disabled:bg-green-600 text-white shadow-theme-xs",
-    gray: "bg-gray-500 hover:bg-gray-600 disabled:bg-gray-600 text-white shadow-theme-xs",
-    aqua: "bg-cyan-500 hover:bg-cyan-600 disabled:bg-cyan-600 text-white shadow-theme-xs",
-    orange: "bg-orange-500 hover:bg-orange-600 disabled:bg-orange-600 text-white shadow-theme-xs",
+    blue: "bg-blue-500 hover:bg-blue-600 disabled:bg-blue-600",
+    red: "bg-red-500 hover:bg-red-600 disabled:bg-red-600",
+    green: "bg-green-500 hover:bg-green-600 disabled:bg-green-600 shadow-theme-xs",
+    gray: "bg-gray-300 hover:bg-gray-600 disabled:bg-gray-600 shadow-theme-xs",
+    aqua: "bg-cyan-500 hover:bg-cyan-600 disabled:bg-cyan-600 shadow-theme-xs",
+    orange: "bg-orange-500 hover:bg-orange-600 disabled:bg-orange-600 shadow-theme-xs",
   },
   ghost: {
     blue: "bg-transparent text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/10",
@@ -47,11 +47,11 @@ const variantClasses = {
     orange: "bg-transparent text-orange-600 hover:bg-orange-50 dark:text-orange-400 dark:hover:bg-orange-900/10",
   },
   outline:
-    "bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300",
+    "bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:ring-gray-700 dark:hover:bg-white/[0.03]",
 
   link: "bg-transparent text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300",
 
-  danger: "bg-red-600 text-white hover:bg-red-700 disabled:bg-red-700",
+  danger: "bg-red-600 hover:bg-red-700 disabled:bg-red-700",
 };
 
 const Button: React.FC<ButtonProps> = ({

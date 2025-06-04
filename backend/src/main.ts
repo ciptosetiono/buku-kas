@@ -12,8 +12,9 @@ async function bootstrap() {
 
   // Enable CORS jika perlu (misalnya jika frontend dan backend berbeda domain)
   app.enableCors({
-    origin: process.env.FRONTEND_URL, // frontend URL(s) from .env as array
+    origin: ['http://localhost:3000', 'http://192.168.1.163:3000', process.env.FRONTEND_URL],
     credentials: true, // allow cookies
+   // methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   });
 
   app.use(cookieParser());

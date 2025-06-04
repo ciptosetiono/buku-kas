@@ -6,8 +6,10 @@ const max_age = 1000 * 60 * 60 * 24; // 1 day
 
 const isProduction: boolean = process.env.NODE_ENV === 'production';
 
+const domainOrigin = isProduction ? '.stik.co.id' : 'localhost';
+
 const private_cookie_options = {
-  domain: '.stik.co.id', 
+  domain:domainOrigin,
   httpOnly: true,
   secure: isProduction,
   sameSite: isProduction ? ('none' as 'none') : ('lax' as 'lax'), // cross-origin in prod, simple in dev
@@ -15,10 +17,10 @@ const private_cookie_options = {
 }
 
 const public_cookie_options = {
-  domain: '.stik.co.id', 
+  domain: domainOrigin, 
   httpOnly: false, // ✅ bisa dibaca oleh middleware frontend
   secure: isProduction,
-  sameSite: 'none' as 'none',
+  sameSite: isProduction ? ('none' as 'none') : ('lax' as 'lax'), 
   maxAge: max_age,
 }
 

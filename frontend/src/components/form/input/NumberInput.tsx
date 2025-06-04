@@ -10,6 +10,7 @@ const NumberInput = ({ value, onValueChange }: {
 }) => {
   return (
     <NumericFormat
+    
       value={value}
       thousandSeparator="."
       decimalSeparator=","
@@ -18,7 +19,7 @@ const NumberInput = ({ value, onValueChange }: {
       decimalScale={2}
       fixedDecimalScale={true}
       valueIsNumericString={true}
-      className="border px-2 py-1 rounded w-full"
+      className="border px-2 py-1 rounded w-full text-gray-800 dark:text-white bg-white dark:bg-gray-800 placeholder-gray-400 dark:placeholder-gray-500"
       placeholder="Rp 0,00"
       onValueChange={(values) => {
         onValueChange(values.floatValue);

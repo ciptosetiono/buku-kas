@@ -88,7 +88,7 @@ const TableCell: React.FC<TableCellProps> = ({
   className,
 }) => {
   const baseClasses =
-    "px-5 py-3 text-start text-sm font-medium text-gray-700";
+    "px-5 py-3 text-start text-sm font-medium text-gray-700 dark:text-gray-100";
   if (isHeader) {
     return (
       <th className={`${baseClasses} ${className}`} colSpan={colSpan? colSpan : undefined}> 

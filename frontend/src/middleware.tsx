@@ -18,7 +18,7 @@ export function middleware(req: NextRequest) {
     //return NextResponse.redirect(new URL("/auth/signin", req.url));
 
     const loginUrl = new URL("/auth/signin", req.url);
-    loginUrl.searchParams.set("reason", "no_token"); // Tambahkan info ke URL
+    //loginUrl.searchParams.set("reason", "no_token"); // Tambahkan info ke URL
     return NextResponse.redirect(loginUrl);
 
   }

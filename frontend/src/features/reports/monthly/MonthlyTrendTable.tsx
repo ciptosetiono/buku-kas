@@ -9,7 +9,7 @@ export default function MonthlyTrendTable({ trends }: { trends: MonthlyTrendInte
   return (
     <div className="mt-8 overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200 text-sm">
-        <thead className="bg-gray-50 text-gray-700">
+        <thead className="bg-gray-50 text-gray-700 dark:text-gray-100">
           <tr>
             <th className="px-4 py-2 text-left">Month</th>
             <th className="px-4 py-2 text-right">Start Balance</th>
@@ -18,7 +18,7 @@ export default function MonthlyTrendTable({ trends }: { trends: MonthlyTrendInte
             <th className="px-4 py-2 text-right">End Balance</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-100 text-gray-800">
+        <tbody className="divide-y divide-gray-100 text-gray-800 dark:text-gray-200">
           {trends.map((t, idx) => (
             <tr key={idx}>
               <td className="px-4 py-2">

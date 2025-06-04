@@ -21,11 +21,18 @@ export type TransactionRowProps = {
 }
 
 export const TransactionRow = ({transaction, onDetail, onEdit, onDelete} : TransactionRowProps) => {
-  const cellClass = transaction.type === 'income' ? 'text-green-600' : 'text-red-600';
+  const cellClass =
+  transaction.type === 'income'
+    ? 'text-green-600 dark:text-green-400'
+    : 'text-red-600 dark:text-red-400';
+
     return (
         <TableRow key={transaction._id}>
             <TableCell   className={cellClass}>
                 {transaction.account.name}
+            </TableCell>
+            <TableCell   className={cellClass}>
+                {transaction.type}
             </TableCell>
             <TableCell   className={cellClass}>
                 {transaction.category.name}
@@ -90,6 +97,11 @@ export default function TransactionTable({transactions= [], totalTransactions, p
             <TableCell isHeader>
               Account
             </TableCell>
+
+            <TableCell isHeader>
+              Type
+            </TableCell>
+
             <TableCell isHeader>
               Category
             </TableCell>

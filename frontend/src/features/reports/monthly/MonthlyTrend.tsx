@@ -13,8 +13,6 @@ import { getDefaultToDate } from "@/utils/format";
 const getLastMonthsDate = (monthsAgo: number = 11): string => {
   const today = new Date();
   const fromDateObj = new Date(today.getFullYear(), today.getMonth() - monthsAgo, 1);
-
-  console.log(fromDateObj);
   return fromDateObj.toISOString().slice(0, 10);
 };
 
