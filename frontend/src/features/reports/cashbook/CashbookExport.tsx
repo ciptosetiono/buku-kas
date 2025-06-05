@@ -18,7 +18,11 @@ export const handleExportPdf = (report: CashbookReportType, fromDate: string, to
   const pageWidth = doc.internal.pageSize.getWidth();
 
   // Judul Laporan
-  const title = 'Laporan Buku Kas';
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME;
+  const leaderRole = process.env.NEXT_PUBLIC_LEADER_ROLE;
+  const leaderName = process.env.NEXT_PUBLIC_LEADER_NAME;
+
+  const title = `Laporan Buku Kas ${companyName}`;
   const titleWidth = doc.getTextWidth(title);
   const titleX = (pageWidth - titleWidth) / 2;
 
@@ -80,7 +84,22 @@ export const handleExportPdf = (report: CashbookReportType, fromDate: string, to
       formatRupiah(tx.balance),
     ]),
     styles: { fontSize: 9 },
+    didDrawPage: (data) => {
+      finalY = (data.cursor?.y ?? 0) + 10;
+    },
   });
+
+  // penandatangan
+  const signY = finalY + 15;
+  const cityDate = `Demak, ................`;
+
+  doc.setFontSize(11);
+  doc.text(cityDate, pageWidth - 70, signY); // Kota dan tanggal
+  doc.text(leaderRole || 'Pimpinan', pageWidth - 70, signY + 6);
+
+  if (leaderName) {
+    doc.text(leaderName, pageWidth - 70, signY + 25);
+  }
 
   doc.save(`cashbook-report_from_${formatTanggal(fromDate)}_to_${formatTanggal(toDate)}.pdf`);
 };
